@@ -1,11 +1,23 @@
 import { applyDecorators, HttpCode } from '@nestjs/common';
-import { ApiResponse as NestApiResponse } from '@nestjs/swagger';
+import { ApiResponse as NestApiResponse, ApiTags } from '@nestjs/swagger';
 import { ApiResponseOptions } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 
-export function Endpoint(options: ApiResponseOptions) {
+export enum DocumentationTags {
+  META = 'Meta',
+}
+
+export type Options = {
+  tags: DocumentationTags[];
+};
+
+export function Endpoint(options: ApiResponseOptions & Options) {
   if (options.status && typeof options.status === 'number') {
-    return applyDecorators(NestApiResponse(options), HttpCode(options.status));
+    return applyDecorators(
+      NestApiResponse(options),
+      HttpCode(options.status),
+      ApiTags(...options.tags),
+    );
   }
 
-  return applyDecorators(NestApiResponse(options));
+  return applyDecorators(NestApiResponse(options), ApiTags(...options.tags));
 }
