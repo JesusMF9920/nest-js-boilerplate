@@ -1,10 +1,29 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module, ValidationPipe } from '@nestjs/common';
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { config } from './config';
+import { HttpExceptionFilterLogger } from './task/shared/infraestructure/error-handling/boilerplate/HttpExceptionFilterLogger';
+import { GlobalErrorsInterceptor } from './task/shared/infraestructure/error-handling/boilerplate/GlobalErrorsInterceptor';
+import { DomainToInfrastructureMapper } from './task/shared/infraestructure/error-handling/DomainToInfrastructureMap';
+import { LoggerSwitcher } from './utils/logger-switcher';
+import { MetaController } from './api/v1/meta/MetaController';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [LoggerSwitcher.init({ disable: config.testModeEnabled })],
+  controllers: [MetaController],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: GlobalErrorsInterceptor,
+    },
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilterLogger,
+    },
+    DomainToInfrastructureMapper,
+  ],
 })
 export class AppModule {}
