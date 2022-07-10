@@ -15,7 +15,7 @@ export class MetaController {
   @Endpoint({ type: StatusResponseDTO })
   @Get('/meta/simulate-error')
   async simulateError() {
-    throw new Error('This is an example a error');
+    throw new Error('This is an example of error');
   }
 
   @Endpoint({ type: VersionResponseDTO })
