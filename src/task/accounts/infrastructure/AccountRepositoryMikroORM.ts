@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AccountRepository } from '../domain/AccountRepository';
-import { EntityRepository, MikroORM } from '@mikro-orm/core';
+import { EntityRepository, MikroORM, UseRequestContext } from '@mikro-orm/core';
 import { AccountEntity } from './AccountRepsitoryMikroORM/Account.entity';
 import { Account } from '../domain/Account';
 import { AccountId } from '../../shared/domain/ids/AccountId';
@@ -14,6 +14,7 @@ export class AccountRepositoryMikroORM implements AccountRepository {
     this.accountRepository = this.orm.em.getRepository(AccountEntity);
   }
 
+  @UseRequestContext()
   async save(account: Account): Promise<void> {
     const accountEntity = AccountEntity.fromPrimitives(account.toPrimitives());
     const id = accountEntity.id;
@@ -25,6 +26,7 @@ export class AccountRepositoryMikroORM implements AccountRepository {
     }
   }
 
+  @UseRequestContext()
   async findOneById(accountId: AccountId): Promise<Account | undefined> {
     const accountEntity = await this.accountRepository.findOne({ id: accountId.toPrimitives() });
 
@@ -33,6 +35,7 @@ export class AccountRepositoryMikroORM implements AccountRepository {
     }
   }
 
+  @UseRequestContext()
   async findOneByEmail(email: EmailAddress): Promise<Account | undefined> {
     const accountEntity = await this.accountRepository.findOne({ id: email.getValue() });
 
@@ -41,6 +44,7 @@ export class AccountRepositoryMikroORM implements AccountRepository {
     }
   }
 
+  @UseRequestContext()
   count(): Promise<number> {
     return this.accountRepository.count();
   }

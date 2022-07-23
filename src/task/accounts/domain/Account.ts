@@ -4,6 +4,7 @@ import { AccountSalt } from './AccountSalt';
 import { EmailAddress } from './EmailAddress';
 import { AggregateRoot } from '../../shared/utils/hex/AggregateRoot';
 import { AccountId } from '../../shared/domain/ids/AccountId';
+import { AccountType } from './AccountType';
 
 export type AccountPrimitives = ReturnType<Account['toPrimitives']>;
 
@@ -13,6 +14,7 @@ export class Account extends AggregateRoot {
     private readonly email: EmailAddress,
     private password: AccountHashedPassword,
     private salt: AccountSalt,
+    private accountType: AccountType,
   ) {
     super();
   }
@@ -23,12 +25,18 @@ export class Account extends AggregateRoot {
       new EmailAddress(p.email),
       new AccountHashedPassword(p.password),
       new AccountSalt(p.salt),
+      p.accountType,
     );
   }
 
-  public static create(accountId: AccountId, email: EmailAddress, password: AccountPassword) {
+  public static create(
+    accountId: AccountId,
+    email: EmailAddress,
+    password: AccountPassword,
+    accountType: AccountType,
+  ) {
     const salt = AccountSalt.getRandom();
-    const account = new Account(accountId, email, password.hash(salt), salt);
+    const account = new Account(accountId, email, password.hash(salt), salt, accountType);
 
     return account;
   }
@@ -66,6 +74,7 @@ export class Account extends AggregateRoot {
       email: this.email.getValue(),
       password: this.password.getValue(),
       salt: this.salt.getValue(),
+      accountType: this.accountType,
     };
   }
 }

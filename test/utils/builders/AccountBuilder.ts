@@ -6,10 +6,12 @@ export const createAccount = ({
   email = MARIA.email,
   password = MARIA.password,
   salt = 'mysalt',
+  accountType = MARIA.accountType,
 } = {}) =>
   Account.fromPrimitives({
     id,
     email,
     password,
     salt,
+    accountType,
   });

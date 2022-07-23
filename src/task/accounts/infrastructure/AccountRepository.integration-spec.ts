@@ -35,9 +35,7 @@ describe('AccountRepository', () => {
 
       await accountRepository.save(newAccount);
       await accountRepository.save(newAccount);
-
       const account = await accountRepository.findOneById(newAccount.getId());
-
       expect(account).toEqual(newAccount);
     });
   });
