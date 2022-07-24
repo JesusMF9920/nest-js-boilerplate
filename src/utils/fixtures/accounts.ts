@@ -6,4 +6,5 @@ export const MARIA = {
   password: 'mypassword',
   newPassword: 'undefined',
   accountType: AccountType.MANAGER_USER,
+  jwt: 'foeifewifewimp',
 };
