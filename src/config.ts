@@ -9,4 +9,7 @@ export const config = {
     database: process.env.DATABASE_DATABASE || 'todo-list',
   },
   logging: true,
+  jwt: {
+    secret: 'secret',
+  },
 };
