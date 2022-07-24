@@ -21,6 +21,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest --runInBand",
     "test:acceptance_unitary": "jest --config ./test/jest-acceptance-and-unitary.json",
+    "test:acceptance_unitary_mikro_orm": "cross-env ENABLE_TEST_MIKRO_ORM_REPOSITORIES=true jest --detectOpenHandles --config ./test/jest-acceptance-and-unitary-mikro-orm.json",
     "test:integration": "jest --config ./test/jest-integration.json --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
