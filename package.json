@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d database-todo",
+    "containers:clean": "docker-compose down && docker volume prune -f",
+    "initialize:db": "yarn containers:restart && sleep 20 && yarn migration:run",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -13,22 +16,34 @@
     "start:prod": "node dist/main.js",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
+    "migration:create": "mikro-orm migration:create",
+    "migration:run": "mikro-orm migration:up",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest --runInBand",
     "test:acceptance_unitary": "jest --config ./test/jest-acceptance-and-unitary.json",
+    "test:acceptance_unitary_mikro_orm": "cross-env ENABLE_TEST_MIKRO_ORM_REPOSITORIES=true jest --detectOpenHandles --config ./test/jest-acceptance-and-unitary-mikro-orm.json",
+    "test:integration": "jest --config ./test/jest-integration.json --detectOpenHandles",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "dependencies": {
+    "@mikro-orm/cli": "^5.2.3",
+    "@mikro-orm/core": "^5.2.3",
+    "@mikro-orm/migrations": "^5.2.3",
+    "@mikro-orm/nestjs": "^5.1.0",
+    "@mikro-orm/postgresql": "^5.2.3",
+    "@mikro-orm/reflection": "^5.2.3",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/jwt": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/schedule": "^2.1.0",
     "@nestjs/swagger": "^6.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "nestjs-pino": "^2.6.0",
+    "pg": "^8.7.3",
     "pino-http": "^8.1.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
@@ -52,6 +67,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "husky": "^8.0.1",
     "jest": "^27.2.5",
+    "mikro-orm": "^5.2.0",
     "prettier": "^2.3.2",
     "source-map-support": "^0.5.20",
     "supertest": "^6.1.3",
@@ -80,5 +96,12 @@
   },
   "engines": {
     "node": "18.0.0"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
   }
 }

@@ -4,6 +4,7 @@ import { ApiResponseOptions } from '@nestjs/swagger/dist/decorators/api-response
 
 export enum DocumentationTags {
   META = 'Meta',
+  USERS = 'Users',
 }
 
 export type Options = {
