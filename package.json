@@ -8,7 +8,7 @@
   "scripts": {
     "containers:restart": "docker-compose down && docker volume prune -f && docker-compose up -d database-todo",
     "containers:clean": "docker-compose down && docker volume prune -f",
-    "initialize:db": "yarn containers:restart && sleep 20",
+    "initialize:db": "yarn containers:restart && sleep 20 && yarn migration:run",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
