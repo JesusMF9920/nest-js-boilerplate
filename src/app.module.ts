@@ -7,6 +7,7 @@ import { DomainToInfrastructureMapper } from './task/shared/infraestructure/erro
 import { LoggerSwitcher } from './utils/logger-switcher';
 import { MikroOrmSwitcherModule } from './utils/MikroOrmSwitcher.module';
 import { MetaController } from './api/v1/meta/MetaController';
+import { AccountsModule } from './task/accounts/accounts.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { MetaController } from './api/v1/meta/MetaController';
     MikroOrmSwitcherModule.init({
       disable: config.testModeEnabled && !config.forceEnableMikroORMRepositories,
     }),
+    AccountsModule,
   ],
   controllers: [MetaController],
   providers: [
