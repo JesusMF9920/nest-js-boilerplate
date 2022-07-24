@@ -37,7 +37,7 @@ export class AccountRepositoryMikroORM implements AccountRepository {
 
   @UseRequestContext()
   async findOneByEmail(email: EmailAddress): Promise<Account | undefined> {
-    const accountEntity = await this.accountRepository.findOne({ id: email.getValue() });
+    const accountEntity = await this.accountRepository.findOne({ email: email.getValue() });
 
     if (accountEntity) {
       return AccountEntity.toDomain(accountEntity);
