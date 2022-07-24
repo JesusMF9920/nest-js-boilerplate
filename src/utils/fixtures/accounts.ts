@@ -6,5 +6,5 @@ export const MARIA = {
   password: 'mypassword',
   newPassword: 'undefined',
   accountType: AccountType.MANAGER_USER,
-  jwt: 'foeifewifewimp',
+  jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50VHlwZSI6IkdFTkVSQUxfVVNFUiIsInN1YiI6IjQ4ZTAzYmM3LWMzNzAtNGI4OS05NTA5LTE4N2NlNWZlOWMzMCIsImlhdCI6MTY1ODY5NTI2OSwiZXhwIjoxNjkwMjUyODY5fQ.VYHSz3LrDovhrlBc2Zf6WycL-nlVENFgrCspGj1LENc',
 };

@@ -85,6 +85,17 @@ export class TestClient {
       password,
     });
   }
+
+  validateAuth({ jwt = MARIA.jwt } = {}) {
+    return request(this.app).get('/api/v1/auth/validation').authWithBearer(jwt);
+  }
+
+  loginUser({ email = MARIA.email, password = MARIA.password } = {}) {
+    return request(this.app).post('/api/v1/auth/user/login').send({
+      email,
+      password,
+    });
+  }
 }
 
 export async function createClient({
